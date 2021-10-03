@@ -1,0 +1,89 @@
+﻿@model IEnumerable<SastreriaWebApp.Models.Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<div class="col-3">
+
+    <p>
+        <a type="button" class="btn btn-info form-control text-white" asp-action="Create">Create New</a>
+    </p>
+
+    <div class="col-1">
+        <h1>Ordenes</h1>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.DeliveryDate)*@
+                Entrega
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Cost)*@
+                Costo
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Details)*@
+                Detalle
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Complete)*@
+                Estatus
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeliveryDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Details)
+                </td>
+                <td>
+                    @if (item.Complete)
+                    {
+                        <span class="badge badge-success">Completado</span>
+                    }
+                    else if (item.DeliveryDate < DateTime.Now)
+                    {
+                        <span class="badge badge-danger">Retrasado</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-warning">Pendiente</span>
+                    }
+
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-success" data-toggle="modal" onclick="RenderActions(@($"'/Orders/Edit/{@item.Id}'"))" data-target="#modalCreate">Edit</button>
+                    <button class="btn btn-sm btn-info" data-toggle="modal" onclick="RenderActions(@($"'/Orders/Details/{@item.Id}'"))" data-target="#modalCreate">Details</button>
+                    <button class="btn btn-sm btn-danger" data-toggle="modal" onclick="RenderActions(@($"'/Orders/Delete/{@item.Id}'"))" data-target="#modalCreate">Delete</button>
+                    <button class="btn btn-sm btn-outline-info" data-toggle="modal" onclick="RenderActions(@($"'/Orders/{@item.Id}/Payment/Create'"))" data-target="#modalCreate">Agregar pago</button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="modalCreate" class="modal fade" role = "dialog" data-backdrop="false">
+    <div class="modal-dialog modal-xl" >
+        <div class="modal-content">
+            <div id="OpenDialog" class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+﻿@model SastreriaWebApp.Models.OrderDetailsViewModel
+
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+<h4>Orden de Servicio</h4>
+<hr />
+
+<div class="container">
+
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group form-inline mb-2">
+
+                <label asp-for="Tel" class="control-label col-sm-2">Telefono:</label>
+                <div class="col-lg-8">
+                    <input asp-for="Tel" class="form-control" id="clientTel" readonly />
+                </div>
+                <span asp-validation-for="Tel" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-inline mb-2">
+                <label asp-for="Name" class="control-label col-sm-2">Nombre:</label>
+                <input type="hidden" asp-for="ClientId" class="form-control" id="clientId" readonly />
+                <div class="col-lg-8">
+                    <input asp-for="Name" class="form-control" id="clientName" readonly />
+                </div>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label col-sm-2">Direccion:</label>
+                <div class="col-lg-8">
+                    <textarea asp-for="Address" class="form-control" id="clientAddress" readonly> </textarea>
+                </div>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="form-group form-inline mb-2">
+                <label asp-for="DeliveryDate" class="control-label col-sm-2">Entrega:</label>
+                <div class="col-lg-8">
+                    <input asp-for="DeliveryDate" class="form-control id=" DeliveryDate"" type="date" readonly />
+                </div>
+                <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-inline mb-2">
+                <label asp-for="Cost" class="control-label col-sm-2">Costo:</label>
+                <div class="col-lg-8">
+                    <input asp-for="Cost" class="form-control" type="number" readonly />
+                </div>
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-inline mb-2">
+                <label asp-for="Amount " class="control-label col-sm-2">Abono:</label>
+
+                <div class="col-lg-8">
+                    <input asp-for="Amount" class="form-control" type="number" readonly />
+                </div>
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Details" class="control-label">Detalles</label>
+
+        <textarea asp-for="Details" class="form-control" readonly> </textarea>
+        <span asp-validation-for="Details" class="text-danger"></span>
+    </div>
+
+
+    <button id="collapse-btn-switch" class="btn btn-link mt-2 collapsed" type="button" data-toggle="collapse" data-target="#collapseTable" aria-expanded="false" aria-controls="collapseTable">
+        Ver Pagos
+    </button>
+    <div class="collapse" id="collapseTable">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        @*@Html.DisplayNameFor(model => model.Payments[0].Amount)*@
+                        Abono
+                    </th>
+                    <th scope="col">
+                        @*@Html.DisplayNameFor(model => model.Payments[0].Date)*@
+                        Fecha
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Payments.Count > 0)
+                {
+                    foreach (var item in Model.Payments)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="Complete" readonly /> @Html.DisplayNameFor(model => model.Complete)
+        </label>
+    </div>
+    <button class="btn btn-sm btn-success" onclick="RenderActions(@($"'/Orders/Edit/{@Model.Id}'"))">Edit</button>
+
+    <a asp-action="Index">Back to List</a>
+
+
+
+</div>
+
+<script>
+    changeCollapseBtnLabel();
+</script>
+
+
